@@ -1,0 +1,33 @@
+# /ProyectoTiendaCI/docker-compose.yml
+
+version: '3.8'
+
+services:
+  # 1. Servicio del Backend (Contenedor 1)
+  backend:
+    build: ./backend         # Construye la imagen usando el Dockerfile en /backend
+    ports:
+      - "5000:5000"          # Mapea el puerto interno 5000 al puerto 5000 de tu máquina
+    environment:
+      # Pasa estas variables al backend (app.py) para que se conecte a la DB
+      DB_HOST: db            # ¡Importante! 'db' es el nombre del servicio de la DB
+      DB_NAME: mydatabase
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+    depends_on:
+      - db                   # Asegura que la DB se inicie antes que el backend
+
+  # 2. Servicio de la Base de Datos (Contenedor 2)
+  db:
+    image: postgres:14-alpine # Usar una imagen oficial de PostgreSQL
+    environment:
+      # Variables de entorno para configurar el contenedor de PostgreSQL
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persistencia de datos (opcional, pero recomendado)
+
+# Volúmenes para persistir los datos de la Base de Datos
+volumes:
+  postgres_data:
