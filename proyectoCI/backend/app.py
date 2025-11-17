@@ -20,7 +20,7 @@ def index():
             host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASSWORD
         )
         conn.close()
-        return "¡he consegui comunicar correctamente el Backend y Base de Datos "
+        return "¡He conseguido comunicar correctamente el Backend y la Base de Datos! "
     except Exception as e:
         # Devuelve un error si la conexión falla
         return f"Error al conectar con la Base de Datos. Revisa la comunicación de contenedores: {e}", 500
