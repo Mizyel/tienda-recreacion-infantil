@@ -1,0 +1,35 @@
+pipeline {                         // Inicia la definición del pipeline en Jenkins
+    agent any                      // Jenkins puede usar cualquier agente/servidor para ejecutar
+
+    stages {                       // Sección donde se definen las etapas del pipeline
+
+        stage('Checkout') {        // Primera etapa: obtener el código del repositorio
+            steps {
+                git branch: 'main', 
+                    url: 'https://github.com/Mizyel/tienda-recreacion-infantil'
+                                    // Conecta Jenkins a GitHub y descarga el código de la rama main
+            }
+        }
+
+        stage('Build Docker Image') {   // Segunda etapa: construir una imagen de Docker
+            steps {
+                script {
+                    sh 'docker build -t tienda-recreacion .'  
+                                    // Construye una imagen Docker llamada "tienda-recreacion"
+                                    // usando el Dockerfile ubicado en el proyecto
+                }
+            }
+        }
+
+        stage('Run Container') {   // Tercera etapa: ejecutar la imagen en un contenedor
+            steps {
+                script {
+                    sh 'docker run -d --name tienda -p 3000:3000 tienda-recreacion'
+                                    // Ejecuta el contenedor en segundo plano (-d)
+                                    // Nombre del contenedor: tienda
+                                    // Expone el puerto 3000 para acceder desde navegador
+                }
+            }
+        }
+    }
+}
