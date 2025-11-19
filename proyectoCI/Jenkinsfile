@@ -14,7 +14,7 @@ pipeline {                         // Inicia la definición del pipeline en Jenk
         stage('Build Docker Image') {   // Segunda etapa: construir una imagen de Docker
             steps {
                 script {
-                    sh 'docker build -t tienda-recreacion .'  
+                    sh 'docker build -t tienda-recreacion proyectoCI/backend'  
                                     // Construye una imagen Docker llamada "tienda-recreacion"
                                     // usando el Dockerfile ubicado en el proyecto
                 }
