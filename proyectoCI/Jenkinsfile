@@ -1,6 +1,11 @@
 pipeline {                         // Inicia la definición del pipeline en Jenkins
-    agent any                      // Jenkins puede usar cualquier agente/servidor para ejecutar
-
+    //agent any                      // Jenkins puede usar cualquier agente/servidor para ejecutar
+    agent {
+        docker {
+            image 'docker:latest' 
+            args '-v /var/run/docker.sock:/var/run/docker.sock' 
+        }
+    }
     stages {                       // Sección donde se definen las etapas del pipeline
 
         stage('Checkout') {        // Primera etapa: obtener el código del repositorio
